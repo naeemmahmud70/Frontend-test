@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AddedContext } from "../../App";
 import RecipeData from "../Data/Recipe.json";
 import ViewRecipe from "../ViewRecipe/ViewRecipe";
 
 const RecipesList = () => {
   const [demoRecipe, setDemoRecipe] = useState([]);
-  //   const [storageRecipe, setStorageRecipe] = useState([]);
-  const [recipeId, setRecipeId] = useState(null);
+  const [localStorageRecipe, setLocalStorageRecipe] = useState([]);
+  const [viewRecipe, setViewRecipe] = useState({});
 
-  const fromLocalStorageRecipes = JSON.parse(localStorage.getItem("recipes"));
-  //   setStorageRecipe(fromLocalStorageRecipes);
-  console.log("from storage", fromLocalStorageRecipes);
+  const [isAdded, setIsAdded] = useState(false);
 
   useEffect(() => {
     setDemoRecipe(RecipeData);
-  }, []);
+    const fromLocalStorageRecipes = JSON.parse(localStorage.getItem("recipes"));
+    setLocalStorageRecipe(fromLocalStorageRecipes);
+  }, [isAdded]);
 
   const GetRecipeId = (id) => {
-    setRecipeId(id);
-
+    const foundRecipe = localStorageRecipe.find((recipe) => recipe.id === id);
+    setViewRecipe(foundRecipe);
   };
 
   return (
     <div>
       <h1>Recipes List-</h1>
-      {fromLocalStorageRecipes.length > 0 ? (
+      {localStorageRecipe.length > 0 ? (
         <div>
           <p>From Local</p>
-          {fromLocalStorageRecipes.map((recipe, index) => (
-            <h4 onClick={() => GetRecipeId(recipe.recipeTitle)}>
+          {localStorageRecipe.map((recipe, index) => (
+            <h4 onClick={() => GetRecipeId(recipe.id)}>
               {index + 1}. {recipe.recipeTitle}
             </h4>
           ))}
@@ -44,7 +45,11 @@ const RecipesList = () => {
       )}
 
       <div>
-        <ViewRecipe id={recipeId}></ViewRecipe>
+        <ViewRecipe
+          recipe={viewRecipe}
+          key={viewRecipe.id}
+          setIsAdded={setIsAdded}
+        ></ViewRecipe>
       </div>
     </div>
   );

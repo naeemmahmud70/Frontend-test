@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { v4 as uuidv4 } from "uuid";
+import { AddedContext, RecipeListsContext } from "../../App";
 import "./CreateRecipes.css";
 
 const customStyles = {
@@ -15,23 +16,22 @@ const customStyles = {
 };
 Modal.setAppElement("#root");
 
-const CreateRecipes = ({ modalIsOpen, closeModal }) => {
+const CreateRecipes = ({ modalIsOpen, closeModal, deleteId, setIsAdded }) => {
+
+  const [recipeList, setRecipeList] = useContext(RecipeListsContext);
+
   const [recipe, setRecipe] = useState({
     recipeTitle: "",
     ingredients: "",
+    id: "",
   });
-
-  const [recipeList, setRecipeList] = useState([]);
-  console.log(recipeList);
-  const [id, setId] = useState(null);
-  console.log(id);
 
   const onChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
   };
 
-  const onClick = () => {
-    // setRecipe(...recipe, { id: uuidv4() });
+  const onFormSubmit = (event) => {
+    event.preventDefault();
     setRecipeList([
       ...recipeList,
       {
@@ -40,14 +40,22 @@ const CreateRecipes = ({ modalIsOpen, closeModal }) => {
         ingredients: recipe.ingredients,
       },
     ]);
-
-    localStorage.setItem("recipes", JSON.stringify(recipeList));
+    setIsAdded(true);
 
     setRecipe({
       recipeTitle: "",
       ingredients: "",
     });
+    closeModal();
   };
+
+  useEffect(() => {
+    localStorage.setItem("recipes", JSON.stringify(recipeList));
+  }, [recipeList]);
+
+  useEffect(() => {
+    setRecipeList(recipeList.filter((recipe) => recipe.id !== deleteId));
+  }, []);
 
   return (
     <div>
@@ -59,7 +67,7 @@ const CreateRecipes = ({ modalIsOpen, closeModal }) => {
       >
         <h1>Hello Modal Take Input</h1>
 
-        <div className="form">
+        <form onSubmit={onFormSubmit} className="form">
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">
               Recipe Title
@@ -93,9 +101,9 @@ const CreateRecipes = ({ modalIsOpen, closeModal }) => {
             <button onClick={closeModal} className="text-end">
               close
             </button>
-            <button onClick={onClick}>Add</button>
+            <button type="submit" onClick={setIsAdded(false)}>Add</button>
           </div>
-        </div>
+        </form>
       </Modal>
     </div>
   );
