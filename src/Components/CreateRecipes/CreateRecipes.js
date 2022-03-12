@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { v4 as uuidv4 } from "uuid";
-import { AddedContext, RecipeListsContext } from "../../App";
+import { RecipeListsContext } from "../../App";
 import "./CreateRecipes.css";
 
 const customStyles = {
@@ -16,8 +16,12 @@ const customStyles = {
 };
 Modal.setAppElement("#root");
 
-const CreateRecipes = ({ modalIsOpen, closeModal, deleteId, setIsAdded }) => {
-
+const CreateRecipes = ({
+  modalIsOpen,
+  closeModal,
+  setIsAdded,
+  updateRecipe,
+}) => {
   const [recipeList, setRecipeList] = useContext(RecipeListsContext);
 
   const [recipe, setRecipe] = useState({
@@ -25,6 +29,7 @@ const CreateRecipes = ({ modalIsOpen, closeModal, deleteId, setIsAdded }) => {
     ingredients: "",
     id: "",
   });
+  // setRecipe(updateRecipe);
 
   const onChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
@@ -52,10 +57,6 @@ const CreateRecipes = ({ modalIsOpen, closeModal, deleteId, setIsAdded }) => {
   useEffect(() => {
     localStorage.setItem("recipes", JSON.stringify(recipeList));
   }, [recipeList]);
-
-  useEffect(() => {
-    setRecipeList(recipeList.filter((recipe) => recipe.id !== deleteId));
-  }, []);
 
   return (
     <div>
@@ -101,7 +102,9 @@ const CreateRecipes = ({ modalIsOpen, closeModal, deleteId, setIsAdded }) => {
             <button onClick={closeModal} className="text-end">
               close
             </button>
-            <button type="submit" onClick={setIsAdded(false)}>Add</button>
+            <button type="submit" onClick={setIsAdded(false)}>
+              Add
+            </button>
           </div>
         </form>
       </Modal>

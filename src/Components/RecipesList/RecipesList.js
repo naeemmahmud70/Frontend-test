@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AddedContext } from "../../App";
+import React, { useEffect, useState } from "react";
 import RecipeData from "../Data/Recipe.json";
 import ViewRecipe from "../ViewRecipe/ViewRecipe";
 
-const RecipesList = () => {
+const RecipesList = ({ isAdded, setIsAdded, searchResult }) => {
   const [demoRecipe, setDemoRecipe] = useState([]);
   const [localStorageRecipe, setLocalStorageRecipe] = useState([]);
   const [viewRecipe, setViewRecipe] = useState({});
-
-  const [isAdded, setIsAdded] = useState(false);
 
   useEffect(() => {
     setDemoRecipe(RecipeData);
@@ -20,14 +17,14 @@ const RecipesList = () => {
     const foundRecipe = localStorageRecipe.find((recipe) => recipe.id === id);
     setViewRecipe(foundRecipe);
   };
-
+  console.log(searchResult);
   return (
     <div>
       <h1>Recipes List-</h1>
-      {localStorageRecipe.length > 0 ? (
+      {searchResult.length > 0 ? (
         <div>
-          <p>From Local</p>
-          {localStorageRecipe.map((recipe, index) => (
+          <p>From Search</p>
+          {searchResult.map((recipe, index) => (
             <h4 onClick={() => GetRecipeId(recipe.id)}>
               {index + 1}. {recipe.recipeTitle}
             </h4>
@@ -35,8 +32,8 @@ const RecipesList = () => {
         </div>
       ) : (
         <div>
-          <p>From demo</p>
-          {demoRecipe.map((recipe, index) => (
+          <p>From Local</p>
+          {localStorageRecipe.map((recipe, index) => (
             <h4 onClick={() => GetRecipeId(recipe.id)}>
               {index + 1}. {recipe.recipeTitle}
             </h4>
@@ -47,8 +44,10 @@ const RecipesList = () => {
       <div>
         <ViewRecipe
           recipe={viewRecipe}
+          setViewRecipe={setViewRecipe}
           key={viewRecipe.id}
           setIsAdded={setIsAdded}
+          searchResult={searchResult}
         ></ViewRecipe>
       </div>
     </div>
