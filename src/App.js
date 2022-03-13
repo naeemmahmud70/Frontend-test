@@ -13,20 +13,25 @@ function App() {
   const [searchResult, setSearchResult] = useState([]);
 
   return (
-    <div>
-      <h1 className="text-center fw-bold">Recipe Builder</h1>
-      <RecipeListsContext.Provider value={[recipeList, setRecipeList]}>
-        <SearchRecipe
-          recipeList={recipeList}
-          setRecipeList={setRecipeList}
-          setSearchResult={setSearchResult}
-        ></SearchRecipe>
-        <RecipesList
-          isAdded={isAdded}
-          setIsAdded={setIsAdded}
-          searchResult={searchResult}
-        ></RecipesList>
-      </RecipeListsContext.Provider>
+    <div className="container">
+      <div className="row d-flex justify-content-center">
+        <div className="col-md-8 shadow">
+          <h2 className="text-center fw-bold textColor mt-2">Recipe Builder</h2>
+          <hr />
+          <RecipeListsContext.Provider value={[recipeList, setRecipeList]}>
+            <SearchRecipe
+              recipeList={recipeList}
+              setRecipeList={setRecipeList}
+              setSearchResult={setSearchResult}
+            ></SearchRecipe>
+            <RecipesList
+              isAdded={isAdded}
+              setIsAdded={setIsAdded}
+              searchResult={searchResult}
+            ></RecipesList>
+          </RecipeListsContext.Provider>
+        </div>
+      </div>
     </div>
   );
 }

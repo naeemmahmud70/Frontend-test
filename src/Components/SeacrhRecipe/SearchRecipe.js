@@ -22,13 +22,13 @@ const SearchRecipe = ({ recipeList, setSearchResult }) => {
     }
   };
   return (
-    <div>
-      <form onSubmit={formSubmit}>
-        <div>
-          <input onChange={onInputChange} value={search} type="text" />
+    <div className="row">
+      <form onSubmit={formSubmit} className="d-flex justify-content-center">
+        <div className="col-md-4">
+          <input onChange={onInputChange} value={search} type="text" className="form-control inputStyle" placeholder="Search recipe by ingredients name"/>
         </div>
         <div>
-          <button type="submit">search</button>
+          <button type="submit" className="btnStyle">search</button>
         </div>
       </form>
     </div>

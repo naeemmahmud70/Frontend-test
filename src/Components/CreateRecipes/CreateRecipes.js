@@ -31,6 +31,10 @@ const CreateRecipes = ({
     id: "",
   });
 
+  const onChange = (e) => {
+    setRecipe({ ...recipe, [e.target.name]: e.target.value });
+  };
+
   useEffect(() => {
     if (updateRecipe) {
       setRecipe({
@@ -41,10 +45,6 @@ const CreateRecipes = ({
       setRecipe("");
     }
   }, [setRecipe, updateRecipe]);
-
-  const onChange = (e) => {
-    setRecipe({ ...recipe, [e.target.name]: e.target.value });
-  };
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -95,11 +95,13 @@ const CreateRecipes = ({
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h1>Hello Modal Take Input</h1>
-
+        <h2 className="textColor fw-bold">
+          Recipe Builder {updateRecipe ? "Update" : "Add"} Form
+        </h2>
+        <hr />
         <form onSubmit={onFormSubmit} className="form">
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">
+            <label for="exampleFormControlInput1" class="form-label fw-bold">
               Recipe Title
             </label>
             <input
@@ -113,7 +115,7 @@ const CreateRecipes = ({
             />
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">
+            <label for="exampleFormControlTextarea1" class="form-label fw-bold">
               Ingredients
             </label>
             <textarea
@@ -128,11 +130,19 @@ const CreateRecipes = ({
           </div>
 
           <div className="d-flex justify-content-end">
-            <button onClick={closeModal} className="text-end">
-              close
+            <button onClick={closeModal} className="text-end btnStyle mx-2">
+              Close
             </button>
-            <button type="submit" onClick={setIsAdded(false)}>
-              Add
+            <button
+              type="submit"
+              onClick={setIsAdded(false)}
+              className="btnStyle"
+            >
+              {updateRecipe ? (
+                <span className="">Update</span>
+              ) : (
+                <span className="">Add</span>
+              )}
             </button>
           </div>
         </form>

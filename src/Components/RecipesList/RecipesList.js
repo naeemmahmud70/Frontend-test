@@ -1,40 +1,39 @@
 import React, { useEffect, useState } from "react";
-import RecipeData from "../Data/Recipe.json";
 import ViewRecipe from "../ViewRecipe/ViewRecipe";
 
 const RecipesList = ({ isAdded, setIsAdded, searchResult }) => {
-  const [demoRecipe, setDemoRecipe] = useState([]);
   const [localStorageRecipe, setLocalStorageRecipe] = useState([]);
   const [viewRecipe, setViewRecipe] = useState({});
+  const [ingredientsList, setIngredientsList] = useState([]);
 
   useEffect(() => {
-    setDemoRecipe(RecipeData);
     const fromLocalStorageRecipes = JSON.parse(localStorage.getItem("recipes"));
     setLocalStorageRecipe(fromLocalStorageRecipes);
   }, [isAdded]);
 
-  const GetRecipeId = (id) => {
+  const GetRecipe = (id) => {
     const foundRecipe = localStorageRecipe.find((recipe) => recipe.id === id);
     setViewRecipe(foundRecipe);
+    const ingredients = foundRecipe.ingredients;
+    const ingredientsList = ingredients.split(",");
+    setIngredientsList(ingredientsList);
   };
-  console.log(searchResult);
+
   return (
-    <div>
-      <h1>Recipes List-</h1>
+    <div className="row p-3">
+      <h2>Recipe List:</h2>
       {searchResult.length > 0 ? (
         <div>
-          <p>From Search</p>
           {searchResult.map((recipe, index) => (
-            <h4 onClick={() => GetRecipeId(recipe.id)}>
+            <h4 onClick={() => GetRecipe(recipe.id)}>
               {index + 1}. {recipe.recipeTitle}
             </h4>
           ))}
         </div>
       ) : (
         <div>
-          <p>From Local</p>
           {localStorageRecipe.map((recipe, index) => (
-            <h4 onClick={() => GetRecipeId(recipe.id)}>
+            <h4 onClick={() => GetRecipe(recipe.id)}>
               {index + 1}. {recipe.recipeTitle}
             </h4>
           ))}
@@ -48,6 +47,7 @@ const RecipesList = ({ isAdded, setIsAdded, searchResult }) => {
           key={viewRecipe.id}
           setIsAdded={setIsAdded}
           searchResult={searchResult}
+          ingredientsList={ingredientsList}
         ></ViewRecipe>
       </div>
     </div>
