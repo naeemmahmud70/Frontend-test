@@ -12,6 +12,7 @@ const ViewRecipe = ({ recipe, setViewRecipe, setIsAdded, searchResult }) => {
   }
 
   const [recipeList, setRecipeList] = useContext(RecipeListsContext);
+  const [updateRecipe, setUpdateRecipe] = useState(null);
 
   const handleDelete = (id) => {
     setRecipeList(recipeList.filter((recipe) => recipe.id !== id));
@@ -21,8 +22,8 @@ const ViewRecipe = ({ recipe, setViewRecipe, setIsAdded, searchResult }) => {
 
   const handleUpdate = (id) => {
     setIsOpen(true);
-    const editRecipe = recipeList.find((recipe) => recipe.id === id);
-    console.log(editRecipe);
+    const findRecipe = recipeList.find((recipe) => recipe.id === id);
+    setUpdateRecipe(findRecipe);
   };
 
   return (
@@ -58,7 +59,8 @@ const ViewRecipe = ({ recipe, setViewRecipe, setIsAdded, searchResult }) => {
               modalIsOpen={modalIsOpen}
               closeModal={closeModal}
               setIsAdded={setIsAdded}
-              updateRecipe={recipe}
+              updateRecipe={updateRecipe}
+              setUpdateRecipe={setUpdateRecipe}
             ></CreateRecipes>
           </div>
         </div>

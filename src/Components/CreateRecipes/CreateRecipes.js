@@ -21,6 +21,7 @@ const CreateRecipes = ({
   closeModal,
   setIsAdded,
   updateRecipe,
+  setUpdateRecipe,
 }) => {
   const [recipeList, setRecipeList] = useContext(RecipeListsContext);
 
@@ -29,7 +30,17 @@ const CreateRecipes = ({
     ingredients: "",
     id: "",
   });
-  // setRecipe(updateRecipe);
+
+  useEffect(() => {
+    if (updateRecipe) {
+      setRecipe({
+        recipeTitle: updateRecipe.recipeTitle,
+        ingredients: updateRecipe.ingredients,
+      });
+    } else {
+      setRecipe("");
+    }
+  }, [setRecipe, updateRecipe]);
 
   const onChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
@@ -37,21 +48,39 @@ const CreateRecipes = ({
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    setRecipeList([
-      ...recipeList,
-      {
-        id: uuidv4(),
-        recipeTitle: recipe.recipeTitle,
-        ingredients: recipe.ingredients,
-      },
-    ]);
-    setIsAdded(true);
+    if (!updateRecipe) {
+      setRecipeList([
+        ...recipeList,
+        {
+          id: uuidv4(),
+          recipeTitle: recipe.recipeTitle,
+          ingredients: recipe.ingredients,
+        },
+      ]);
+      setIsAdded(true);
 
-    setRecipe({
-      recipeTitle: "",
-      ingredients: "",
-    });
-    closeModal();
+      setRecipe({
+        recipeTitle: "",
+        ingredients: "",
+      });
+      closeModal();
+    } else {
+      updateRecipes(updateRecipe.id, recipe.recipeTitle, recipe.ingredients);
+      setRecipe({
+        recipeTitle: "",
+        ingredients: "",
+      });
+      setIsAdded(true);
+      closeModal();
+    }
+  };
+
+  const updateRecipes = (id, recipeTitle, ingredients) => {
+    const newRecipe = recipeList.map((recipe) =>
+      recipe.id === id ? { id, recipeTitle, ingredients } : recipe
+    );
+    setRecipeList(newRecipe);
+    setUpdateRecipe("");
   };
 
   useEffect(() => {
