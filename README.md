@@ -1,5 +1,5 @@
 # Recipe Builder
-![alt text](./src/image/Recipe Builder.png)
+![alt text]('./src/image/builder.png')
 
 # Features 
 - User can create recipe by name and ingredients
@@ -9,13 +9,13 @@
 - Recipe do not delete if refresh the webpage.
 
 ##Recipe Builder form
-![alt text](./src/image/recipe builder form.png)
+![alt text](./src/image/form.png)
 
 ##Show recipe details
-![alt text](./src/image/show recepi details.png)
+![alt text](./src/image/details.png)
 
 ##Recipe updating form
-![alt text]('./src/image/Update.png')
+![alt text](./src/image/Update.png)
 
 ###  `Demo Video :` [YouTube](https://youtu.be/1rhBTBeLugI)
 ###  `Website Link :` [Live Site](https://competent-perlman-5dc8af.netlify.app/)
