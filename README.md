@@ -1,5 +1,5 @@
 # Recipe Builder
-![alt text]('./src/image/builder.png')
+![alt text](./src/image/builder.png)
 
 # Features 
 - User can create recipe by name and ingredients
