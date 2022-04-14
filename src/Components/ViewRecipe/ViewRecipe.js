@@ -30,6 +30,7 @@ const ViewRecipe = ({
     setIsOpen(true);
     const findRecipe = recipeList.find((recipe) => recipe.id === id);
     setUpdateRecipe(findRecipe);
+    setIsAdded(true);
   };
 
   return (
@@ -49,10 +50,16 @@ const ViewRecipe = ({
                     <h2>{recipe.recipeTitle}</h2>
                   </div>
                   <div>
-                    <button className="btnStyle mx-2" onClick={() => handleUpdate(recipe.id)}>
+                    <button
+                      className="btnStyle mx-2"
+                      onClick={() => handleUpdate(recipe.id)}
+                    >
                       Update
                     </button>
-                    <button className="btnStyle" onClick={() => handleDelete(recipe.id)}>
+                    <button
+                      className="btnStyle"
+                      onClick={() => handleDelete(recipe.id)}
+                    >
                       Delete
                     </button>
                   </div>
@@ -73,7 +80,9 @@ const ViewRecipe = ({
                 updateRecipe={updateRecipe}
                 setUpdateRecipe={setUpdateRecipe}
               ></CreateRecipes>
-              <button onClick={openModal} className="btnStyle">Add</button>
+              <button onClick={openModal} className="btnStyle">
+                Add
+              </button>
             </div>
           </div>
         )}
